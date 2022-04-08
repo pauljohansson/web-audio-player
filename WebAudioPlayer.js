@@ -1,5 +1,6 @@
 import { DoublyLinkedList } from "./DoublyLinkedList.js";
 import { Track } from "./Track.js";
+import { setDurationsInPlayList } from "./HelperFunctions.js";
 
 // ============== Model ========================
 const playList = new DoublyLinkedList();
@@ -89,6 +90,9 @@ class WebAudioPlayerController {
       //duration is null because we don't know it yet; it will be set later
       const track = new Track(trackNumber, fileName, null, source);
       playList.appendElement(track);
+
+      //sets duration for each track in the playlist; has to be done asynchronously
+      setDurationsInPlayList(playList, source, i);
     }
 
     webAudioPlayerApp.renderTable();
