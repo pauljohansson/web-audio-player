@@ -18,6 +18,10 @@ class WebAudioPlayerController {
   init() {
     this.webAudioPlayerView.init();
   }
+
+  getPlayList() {
+    return playList;
+  }
 }
 
 const webAudioPlayerView = new WebAudioPlayerView();
