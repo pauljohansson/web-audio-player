@@ -47,6 +47,9 @@ class WebAudioPlayerController {
       .getElementById("files")
       .addEventListener("change", this.handleFileSelect);
 
+    const stopButton = document.getElementById("stopButton");
+    stopButton.onclick = this.handleStopButton;
+
     const playButton = document.getElementById("playButton");
     playButton.onclick = this.handlePlayButton;
 
@@ -73,6 +76,13 @@ class WebAudioPlayerController {
     const firstTrack = playList.head.value;
     webAudioPlayerApp.setTrack(firstTrack);
     webAudioPlayerApp.setIndexOfCurrentTrack(0);
+  }
+
+  handleStopButton() {
+    const player = document.getElementById("player");
+
+    player.pause();
+    player.currentTime = 0;
   }
 
   handlePlayButton() {
