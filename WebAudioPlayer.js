@@ -47,6 +47,10 @@ class WebAudioPlayerController {
       .getElementById("files")
       .addEventListener("change", this.handleFileSelect);
 
+    document
+      .getElementById("player")
+      .addEventListener("ended", this.handleNextTrackButton);
+
     const stopButton = document.getElementById("stopButton");
     stopButton.onclick = this.handleStopButton;
 
