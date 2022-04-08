@@ -34,6 +34,10 @@ tr:nth-child(odd) {
   cursor: pointer;
 }
 
+.rightAlignText {
+  text-align: right;
+}
+
 #openFiles,
 #playerControls {
   padding: 10px 0px 10px 0px;
