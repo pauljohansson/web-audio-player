@@ -11,7 +11,50 @@
     <h1>Web Audio Player</h1>
     <p>Play supported local audio files on your device</p>
     <div id="openFiles"></div>
-    <div id="playerControls"></div>
+    <div id="playerControls">
+      <input
+        type="image"
+        class="mediaButton"
+        id="stopButton"
+        src="icons/stop.gif"
+      />
+      <input
+        type="image"
+        class="mediaButton"
+        id="playButton"
+        src="icons/play.gif"
+      />
+      <input
+        type="image"
+        class="mediaButton"
+        id="pauseButton"
+        src="icons/pause.gif"
+      />
+      <input
+        type="image"
+        class="mediaButton"
+        id="previousTrackButton"
+        src="icons/previous.gif"
+      />
+      <input
+        type="image"
+        class="mediaButton"
+        id="nextTrackButton"
+        src="icons/next.gif"
+      />
+      <input
+        type="image"
+        class="mediaButton"
+        id="repeatButton"
+        src="icons/repeat.gif"
+      />
+      <input
+        type="image"
+        class="mediaButton"
+        id="shuffleButton"
+        src="icons/shuffle.gif"
+      />
+    </div>
     <audio id="player" preload="metadata"></audio>
     <div id="playListContainer">
       <table id="playListTable">

@@ -30,6 +30,10 @@ tr:nth-child(odd) {
   background-color: #eee;
 }
 
+.mediaButton {
+  cursor: pointer;
+}
+
 #openFiles,
 #playerControls {
   padding: 10px 0px 10px 0px;
