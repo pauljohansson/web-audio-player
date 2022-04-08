@@ -37,6 +37,18 @@ class WebAudioPlayerView {
     }
   }
 
+  clearPlayListTable() {
+    const playListTable = document.getElementById("playListTable");
+
+    while (playListTable.firstChild) playListTable.firstChild.remove();
+
+    //rebuild table header
+    const newRow = playListTable.insertRow(0);
+    newRow.insertCell(0).outerHTML = "<th>Track</th>";
+    newRow.insertCell(1).outerHTML = "<th>Filename</th>";
+    newRow.insertCell(2).outerHTML = "<th>Duration</th>";
+  }
+
   updateDurationsInTable() {
     const playList = webAudioPlayerApp.getPlayList();
     let currentNode = playList.head;
@@ -219,6 +231,10 @@ class WebAudioPlayerController {
 
   renderTable() {
     this.webAudioPlayerView.renderTable();
+  }
+
+  clearPlayListTable() {
+    this.webAudioPlayerView.clearPlayListTable();
   }
 
   updateDurationsInTable() {
