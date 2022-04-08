@@ -113,6 +113,11 @@ class WebAudioPlayerController {
   handleFileSelect(e) {
     if (e.target.files.length === 0) return null;
 
+    if (playList.head !== null) {
+      playList.removeAllElements();
+      webAudioPlayerApp.clearPlayListTable();
+    }
+
     const files = e.target.files;
 
     for (let i = 0; i < files.length; i++) {
