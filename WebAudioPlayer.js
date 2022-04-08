@@ -42,6 +42,8 @@ class WebAudioPlayerController {
   init() {
     this.webAudioPlayerView.init();
 
+    this.indexOfCurrentTrack = 0;
+
     document
       .getElementById("files")
       .addEventListener("change", this.handleFileSelect);
@@ -65,6 +67,7 @@ class WebAudioPlayerController {
 
     const firstTrack = playList.head.value;
     webAudioPlayerApp.setTrack(firstTrack);
+    webAudioPlayerApp.setIndexOfCurrentTrack(0);
   }
 
   setTrack(track) {
@@ -74,6 +77,14 @@ class WebAudioPlayerController {
 
   getPlayList() {
     return playList;
+  }
+
+  getIndexOfCurrentTrack() {
+    return this.indexOfCurrentTrack;
+  }
+
+  setIndexOfCurrentTrack(index) {
+    this.indexOfCurrentTrack = index;
   }
 
   renderTable() {
