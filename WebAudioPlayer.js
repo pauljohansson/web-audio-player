@@ -31,6 +31,16 @@ class WebAudioPlayerView {
       newRow.setAttribute("id", i + 1);
     }
   }
+
+  selectTrackInTable(rowIndex) {
+    const selectedRow = document.getElementById(rowIndex);
+    selectedRow.setAttribute("class", "selected");
+  }
+
+  removeSelectionInTable(rowIndex) {
+    const selectedRow = document.getElementById(rowIndex);
+    selectedRow.removeAttribute("class");
+  }
 }
 
 //================ Controller ==================
@@ -90,6 +100,11 @@ class WebAudioPlayerController {
 
   handleStopButton() {
     const player = document.getElementById("player");
+    const indexOfCurrentTrack = webAudioPlayerApp.getIndexOfCurrentTrack();
+    const currentTrackNumber =
+      playList.getElementAtIndex(indexOfCurrentTrack).value.trackNumber;
+
+    webAudioPlayerApp.removeSelectionInTable(currentTrackNumber);
 
     player.pause();
     player.currentTime = 0;
@@ -97,6 +112,11 @@ class WebAudioPlayerController {
 
   handlePlayButton() {
     const player = document.getElementById("player");
+    const indexOfCurrentTrack = webAudioPlayerApp.getIndexOfCurrentTrack();
+    const currentTrackNumber =
+      playList.getElementAtIndex(indexOfCurrentTrack).value.trackNumber;
+
+    webAudioPlayerApp.selectTrackInTable(currentTrackNumber);
 
     player.play();
   }
@@ -111,14 +131,21 @@ class WebAudioPlayerController {
     const player = document.getElementById("player");
     const indexOfCurrentTrack = webAudioPlayerApp.getIndexOfCurrentTrack();
     const currentTrack = playList.getElementAtIndex(indexOfCurrentTrack);
+    const currentTrackNumber = currentTrack.value.trackNumber;
 
     if (currentTrack.previous === null) return null;
+
+    const previousTrackNumber = currentTrack.previous.value.trackNumber;
+
+    webAudioPlayerApp.removeSelectionInTable(currentTrackNumber);
 
     const previousTrack = currentTrack.previous.value;
     let nextIndex = indexOfCurrentTrack - 1;
 
     webAudioPlayerApp.setTrack(previousTrack);
     webAudioPlayerApp.setIndexOfCurrentTrack(nextIndex);
+    webAudioPlayerApp.selectTrackInTable(previousTrackNumber);
+
     player.play();
   }
 
@@ -126,14 +153,21 @@ class WebAudioPlayerController {
     const player = document.getElementById("player");
     const indexOfCurrentTrack = webAudioPlayerApp.getIndexOfCurrentTrack();
     const currentTrack = playList.getElementAtIndex(indexOfCurrentTrack);
+    const currentTrackNumber = currentTrack.value.trackNumber;
 
     if (currentTrack.next === null) return null;
+
+    const nextTrackNumber = currentTrack.next.value.trackNumber;
+
+    webAudioPlayerApp.removeSelectionInTable(currentTrackNumber);
 
     const nextTrack = currentTrack.next.value;
     let nextIndex = indexOfCurrentTrack + 1;
 
     webAudioPlayerApp.setTrack(nextTrack);
     webAudioPlayerApp.setIndexOfCurrentTrack(nextIndex);
+    webAudioPlayerApp.selectTrackInTable(nextTrackNumber);
+
     player.play();
   }
 
@@ -156,6 +190,14 @@ class WebAudioPlayerController {
 
   renderTable() {
     this.webAudioPlayerView.renderTable();
+  }
+
+  selectTrackInTable(rowIndex) {
+    this.webAudioPlayerView.selectTrackInTable(rowIndex);
+  }
+
+  removeSelectionInTable(rowIndex) {
+    this.webAudioPlayerView.removeSelectionInTable(rowIndex);
   }
 }
 
