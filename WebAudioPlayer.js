@@ -41,12 +41,14 @@ class WebAudioPlayerController {
 
   init() {
     this.webAudioPlayerView.init();
-
     this.indexOfCurrentTrack = 0;
 
     document
       .getElementById("files")
       .addEventListener("change", this.handleFileSelect);
+
+    const playButton = document.getElementById("playButton");
+    playButton.onclick = this.handlePlayButton;
   }
 
   handleFileSelect(e) {
@@ -68,6 +70,12 @@ class WebAudioPlayerController {
     const firstTrack = playList.head.value;
     webAudioPlayerApp.setTrack(firstTrack);
     webAudioPlayerApp.setIndexOfCurrentTrack(0);
+  }
+
+  handlePlayButton() {
+    const player = document.getElementById("player");
+
+    player.play();
   }
 
   setTrack(track) {
