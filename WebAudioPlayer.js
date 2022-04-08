@@ -49,6 +49,9 @@ class WebAudioPlayerController {
 
     const playButton = document.getElementById("playButton");
     playButton.onclick = this.handlePlayButton;
+
+    const pauseButton = document.getElementById("pauseButton");
+    pauseButton.onclick = this.handlePauseButton;
   }
 
   handleFileSelect(e) {
@@ -76,6 +79,12 @@ class WebAudioPlayerController {
     const player = document.getElementById("player");
 
     player.play();
+  }
+
+  handlePauseButton() {
+    const player = document.getElementById("player");
+
+    player.pause();
   }
 
   setTrack(track) {
