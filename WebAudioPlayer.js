@@ -60,6 +60,9 @@ class WebAudioPlayerController {
     const pauseButton = document.getElementById("pauseButton");
     pauseButton.onclick = this.handlePauseButton;
 
+    const previousTrackButton = document.getElementById("previousTrackButton");
+    previousTrackButton.onclick = this.handlePreviousTrackButton;
+
     const nextTrackButton = document.getElementById("nextTrackButton");
     nextTrackButton.onclick = this.handleNextTrackButton;
   }
@@ -102,6 +105,21 @@ class WebAudioPlayerController {
     const player = document.getElementById("player");
 
     player.pause();
+  }
+
+  handlePreviousTrackButton() {
+    const player = document.getElementById("player");
+    const indexOfCurrentTrack = webAudioPlayerApp.getIndexOfCurrentTrack();
+    const currentTrack = playList.getElementAtIndex(indexOfCurrentTrack);
+
+    if (currentTrack.previous === null) return null;
+
+    const previousTrack = currentTrack.previous.value;
+    let nextIndex = indexOfCurrentTrack - 1;
+
+    webAudioPlayerApp.setTrack(previousTrack);
+    webAudioPlayerApp.setIndexOfCurrentTrack(nextIndex);
+    player.play();
   }
 
   handleNextTrackButton() {
