@@ -1,0 +1,48 @@
+body {
+  font-size: medium;
+}
+
+h1 {
+  font-size: 275%;
+}
+
+table {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 200%;
+  border-collapse: collapse;
+}
+
+td,
+th {
+  border: thin solid #ddd;
+  padding: 8px;
+}
+
+th {
+  background-color: #04aa6d;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  color: white;
+  cursor: auto;
+}
+
+tr:nth-child(odd) {
+  background-color: #eee;
+}
+
+.mediaButton {
+  cursor: pointer;
+}
+
+#openFiles,
+#playerControls {
+  padding: 10px 0px 10px 0px;
+}
+
+#playerControls {
+  width: 110%;
+}
+
+#playListContainer {
+  padding: 50px 0px 0px 0px;
+}
