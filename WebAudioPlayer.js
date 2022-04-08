@@ -62,6 +62,14 @@ class WebAudioPlayerController {
     }
 
     webAudioPlayerApp.renderTable();
+
+    const firstTrack = playList.head.value;
+    webAudioPlayerApp.setTrack(firstTrack);
+  }
+
+  setTrack(track) {
+    const player = document.getElementById("player");
+    player.setAttribute("src", track.source);
   }
 
   getPlayList() {
