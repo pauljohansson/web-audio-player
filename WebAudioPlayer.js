@@ -191,6 +191,14 @@ class WebAudioPlayerController {
   renderTable() {
     this.webAudioPlayerView.renderTable();
   }
+
+  selectTrackInTable(rowIndex) {
+    this.webAudioPlayerView.selectTrackInTable(rowIndex);
+  }
+
+  removeSelectionInTable(rowIndex) {
+    this.webAudioPlayerView.removeSelectionInTable(rowIndex);
+  }
 }
 
 const webAudioPlayerView = new WebAudioPlayerView();
