@@ -6,5 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Web Audio Player</title>
   </head>
-  <body></body>
+  <body>
+    <h1>Web Audio Player</h1>
+    <p>Play supported local audio files on your device</p>
+    <div id="openFiles"></div>
+    <div id="playerControls"></div>
+    <audio id="player" preload="metadata"></audio>
+    <div id="playListContainer">
+      <table id="playListTable">
+        <tr>
+          <th>Track</th>
+          <th>Filename</th>
+          <th>Duration</th>
+        </tr>
+      </table>
+    </div>
+  </body>
 </html>
