@@ -36,6 +36,11 @@ class WebAudioPlayerView {
     const selectedRow = document.getElementById(rowIndex);
     selectedRow.setAttribute("class", "selected");
   }
+
+  removeSelectionInTable(rowIndex) {
+    const selectedRow = document.getElementById(rowIndex);
+    selectedRow.removeAttribute("class");
+  }
 }
 
 //================ Controller ==================
