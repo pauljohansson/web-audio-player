@@ -31,6 +31,11 @@ class WebAudioPlayerView {
       newRow.setAttribute("id", i + 1);
     }
   }
+
+  selectTrackInTable(rowIndex) {
+    const selectedRow = document.getElementById(rowIndex);
+    selectedRow.setAttribute("class", "selected");
+  }
 }
 
 //================ Controller ==================
