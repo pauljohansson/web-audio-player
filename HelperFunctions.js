@@ -16,3 +16,19 @@ export const setDurationsInPlayList = (playList, audioSource, index) => {
     }, 1000);
   });
 };
+
+export const convertToMinutes = (trackDuration) => {
+  let minutes = Math.floor(trackDuration / 60);
+  if (minutes < 10) {
+    minutes = `0${minutes}`;
+  }
+  return minutes;
+};
+
+export const convertToSeconds = (trackDuration) => {
+  let seconds = Math.floor(trackDuration % 60);
+  if (seconds < 10) {
+    seconds = `0${seconds}`;
+  }
+  return seconds;
+};
