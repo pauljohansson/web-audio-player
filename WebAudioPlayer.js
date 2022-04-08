@@ -1,5 +1,10 @@
 import { DoublyLinkedList } from "./DoublyLinkedList.js";
 import { Track } from "./Track.js";
+import {
+  convertToMinutes,
+  convertToSeconds,
+  setDurationsInPlayList,
+} from "./HelperFunctions.js";
 
 // ============== Model ========================
 const playList = new DoublyLinkedList();
@@ -29,6 +34,22 @@ class WebAudioPlayerView {
       durationCell.textContent = playList.getElementAtIndex(i).value.duration;
 
       newRow.setAttribute("id", i + 1);
+    }
+  }
+
+  updateDurationsInTable() {
+    const playList = webAudioPlayerApp.getPlayList();
+    let currentNode = playList.head;
+    let currentIndex = 0;
+
+    while (currentNode) {
+      const durationCell = document.getElementById(`dur${currentIndex + 1}`);
+      const minutes = convertToMinutes(currentNode.value.duration);
+      const seconds = convertToSeconds(currentNode.value.duration);
+
+      durationCell.textContent = `${minutes}:${seconds}`;
+      currentNode = currentNode.next;
+      currentIndex++;
     }
   }
 
@@ -89,9 +110,17 @@ class WebAudioPlayerController {
       //duration is null because we don't know it yet; it will be set later
       const track = new Track(trackNumber, fileName, null, source);
       playList.appendElement(track);
+
+      //sets duration for each track in the playlist; has to be done asynchronously
+      setDurationsInPlayList(playList, source, i);
     }
 
     webAudioPlayerApp.renderTable();
+
+    //probably better with async and await
+    setTimeout(function () {
+      webAudioPlayerApp.updateDurationsInTable();
+    }, 1000);
 
     const firstTrack = playList.head.value;
     webAudioPlayerApp.setTrack(firstTrack);
@@ -190,6 +219,10 @@ class WebAudioPlayerController {
 
   renderTable() {
     this.webAudioPlayerView.renderTable();
+  }
+
+  updateDurationsInTable() {
+    this.webAudioPlayerView.updateDurationsInTable();
   }
 
   selectTrackInTable(rowIndex) {
