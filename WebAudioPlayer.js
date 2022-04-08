@@ -55,6 +55,9 @@ class WebAudioPlayerController {
 
     const pauseButton = document.getElementById("pauseButton");
     pauseButton.onclick = this.handlePauseButton;
+
+    const nextTrackButton = document.getElementById("nextTrackButton");
+    nextTrackButton.onclick = this.handleNextTrackButton;
   }
 
   handleFileSelect(e) {
@@ -95,6 +98,21 @@ class WebAudioPlayerController {
     const player = document.getElementById("player");
 
     player.pause();
+  }
+
+  handleNextTrackButton() {
+    const player = document.getElementById("player");
+    const indexOfCurrentTrack = webAudioPlayerApp.getIndexOfCurrentTrack();
+    const currentTrack = playList.getElementAtIndex(indexOfCurrentTrack);
+
+    if (currentTrack.next === null) return null;
+
+    const nextTrack = currentTrack.next.value;
+    let nextIndex = indexOfCurrentTrack + 1;
+
+    webAudioPlayerApp.setTrack(nextTrack);
+    webAudioPlayerApp.setIndexOfCurrentTrack(nextIndex);
+    player.play();
   }
 
   setTrack(track) {
