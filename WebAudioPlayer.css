@@ -30,6 +30,10 @@ tr:nth-child(odd) {
   background-color: #eee;
 }
 
+tr.selected {
+  background-color: yellow;
+}
+
 .mediaButton {
   cursor: pointer;
 }
