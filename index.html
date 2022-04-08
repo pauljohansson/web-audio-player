@@ -10,7 +10,9 @@
   <body>
     <h1>Web Audio Player</h1>
     <p>Play supported local audio files on your device</p>
-    <div id="openFiles"></div>
+    <div id="openFiles">
+      <input type="file" id="files" accept="audio/*" name="files[]" multiple />
+    </div>
     <div id="playerControls">
       <input
         type="image"
