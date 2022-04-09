@@ -87,6 +87,7 @@ class WebAudioPlayerController {
 
     this.indexOfCurrentTrack = 0;
     this.repeatState = "noRepeat";
+    this.shuffle = false;
 
     document
       .getElementById("files")
@@ -285,6 +286,15 @@ class WebAudioPlayerController {
     if (state === "repeatTrack" || state === "repeatPlayList")
       this.repeatState = state;
     else this.repeatState = "noRepeat";
+  }
+
+  isShuffle() {
+    return this.shuffle;
+  }
+
+  setShuffle(boolean) {
+    if (typeof boolean !== "boolean") return null;
+    this.shuffle = boolean;
   }
 
   renderTable() {
