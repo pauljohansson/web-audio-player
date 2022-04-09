@@ -193,6 +193,9 @@ class WebAudioPlayerController {
     const previousTrack = currentTrack.previous.value;
     let nextIndex = indexOfCurrentTrack - 1;
 
+    if (playList.isCircular && indexOfCurrentTrack === 0)
+      nextIndex = playList.length - 1;
+
     webAudioPlayerApp.setTrack(previousTrack);
     webAudioPlayerApp.setIndexOfCurrentTrack(nextIndex);
     webAudioPlayerApp.selectTrackInTable(previousTrackNumber);
@@ -214,6 +217,9 @@ class WebAudioPlayerController {
 
     const nextTrack = currentTrack.next.value;
     let nextIndex = indexOfCurrentTrack + 1;
+
+    if (playList.isCircular && indexOfCurrentTrack === playList.length - 1)
+      nextIndex = 0;
 
     webAudioPlayerApp.setTrack(nextTrack);
     webAudioPlayerApp.setIndexOfCurrentTrack(nextIndex);
