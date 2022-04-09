@@ -84,7 +84,9 @@ class WebAudioPlayerController {
 
   init() {
     this.webAudioPlayerView.init();
+
     this.indexOfCurrentTrack = 0;
+    this.repeatState = "noRepeat";
 
     document
       .getElementById("files")
@@ -232,6 +234,16 @@ class WebAudioPlayerController {
 
   setIndexOfCurrentTrack(index) {
     this.indexOfCurrentTrack = index;
+  }
+
+  getRepeatState() {
+    return this.repeatState;
+  }
+
+  setRepeatState(state) {
+    if (state === "repeatTrack" || state === "repeatPlayList")
+      this.repeatState = state;
+    else this.repeatState = "noRepeat";
   }
 
   renderTable() {
