@@ -84,7 +84,9 @@ class WebAudioPlayerController {
 
   init() {
     this.webAudioPlayerView.init();
+
     this.indexOfCurrentTrack = 0;
+    this.repeatState = "noRepeat";
 
     document
       .getElementById("files")
@@ -108,6 +110,9 @@ class WebAudioPlayerController {
 
     const nextTrackButton = document.getElementById("nextTrackButton");
     nextTrackButton.onclick = this.handleNextTrackButton;
+
+    const repeatButton = document.getElementById("repeatButton");
+    repeatButton.onclick = this.handleRepeatButton;
   }
 
   handleFileSelect(e) {
@@ -188,6 +193,9 @@ class WebAudioPlayerController {
     const previousTrack = currentTrack.previous.value;
     let nextIndex = indexOfCurrentTrack - 1;
 
+    if (playList.isCircular && indexOfCurrentTrack === 0)
+      nextIndex = playList.length - 1;
+
     webAudioPlayerApp.setTrack(previousTrack);
     webAudioPlayerApp.setIndexOfCurrentTrack(nextIndex);
     webAudioPlayerApp.selectTrackInTable(previousTrackNumber);
@@ -210,11 +218,42 @@ class WebAudioPlayerController {
     const nextTrack = currentTrack.next.value;
     let nextIndex = indexOfCurrentTrack + 1;
 
+    if (playList.isCircular && indexOfCurrentTrack === playList.length - 1)
+      nextIndex = 0;
+
     webAudioPlayerApp.setTrack(nextTrack);
     webAudioPlayerApp.setIndexOfCurrentTrack(nextIndex);
     webAudioPlayerApp.selectTrackInTable(nextTrackNumber);
 
     player.play();
+  }
+
+  handleRepeatButton() {
+    if (playList.head === null || playList.head.value.duration === null)
+      return null;
+
+    const repeatButton = document.getElementById("repeatButton");
+    const player = document.getElementById("player");
+    const repeatState = webAudioPlayerApp.getRepeatState();
+    const handlePlayButton = webAudioPlayerApp.handlePlayButton;
+    const handleNextTrackButton = webAudioPlayerApp.handleNextTrackButton;
+
+    if (repeatState === "noRepeat") {
+      repeatButton.setAttribute("src", "icons/repeatTrack.gif");
+      webAudioPlayerApp.setRepeatState("repeatTrack");
+      player.removeEventListener("ended", handleNextTrackButton);
+      player.addEventListener("ended", handlePlayButton);
+    } else if (repeatState === "repeatTrack") {
+      playList.convertToCircularDoublyLinkedList();
+      repeatButton.setAttribute("src", "icons/repeatPlayList.gif");
+      webAudioPlayerApp.setRepeatState("repeatPlayList");
+      player.removeEventListener("ended", handlePlayButton);
+      player.addEventListener("ended", handleNextTrackButton);
+    } else {
+      playList.revertBackToDoublyLinkedList();
+      repeatButton.setAttribute("src", "icons/noRepeat.gif");
+      webAudioPlayerApp.setRepeatState("noRepeat");
+    }
   }
 
   setTrack(track) {
@@ -232,6 +271,16 @@ class WebAudioPlayerController {
 
   setIndexOfCurrentTrack(index) {
     this.indexOfCurrentTrack = index;
+  }
+
+  getRepeatState() {
+    return this.repeatState;
+  }
+
+  setRepeatState(state) {
+    if (state === "repeatTrack" || state === "repeatPlayList")
+      this.repeatState = state;
+    else this.repeatState = "noRepeat";
   }
 
   renderTable() {
