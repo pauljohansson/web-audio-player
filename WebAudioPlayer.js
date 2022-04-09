@@ -110,6 +110,9 @@ class WebAudioPlayerController {
 
     const nextTrackButton = document.getElementById("nextTrackButton");
     nextTrackButton.onclick = this.handleNextTrackButton;
+
+    const repeatButton = document.getElementById("repeatButton");
+    repeatButton.onclick = this.handleRepeatButton;
   }
 
   handleFileSelect(e) {
@@ -217,6 +220,34 @@ class WebAudioPlayerController {
     webAudioPlayerApp.selectTrackInTable(nextTrackNumber);
 
     player.play();
+  }
+
+  handleRepeatButton() {
+    if (playList.head === null || playList.head.value.duration === null)
+      return null;
+
+    const repeatButton = document.getElementById("repeatButton");
+    const player = document.getElementById("player");
+
+    if (webAudioPlayerApp.getRepeatState() === "noRepeat") {
+      repeatButton.setAttribute("src", "icons/repeatTrack.gif");
+      webAudioPlayerApp.setRepeatState("repeatTrack");
+      player.removeEventListener(
+        "ended",
+        webAudioPlayerApp.handleNextTrackButton
+      );
+      player.addEventListener("ended", webAudioPlayerApp.handlePlayButton);
+    } else if (webAudioPlayerApp.getRepeatState() === "repeatTrack") {
+      playList.convertToCircularDoublyLinkedList();
+      repeatButton.setAttribute("src", "icons/repeatPlayList.gif");
+      webAudioPlayerApp.setRepeatState("repeatPlayList");
+      player.removeEventListener("ended", webAudioPlayerApp.handlePlayButton);
+      player.addEventListener("ended", webAudioPlayerApp.handleNextTrackButton);
+    } else {
+      playList.revertBackToDoublyLinkedList();
+      repeatButton.setAttribute("src", "icons/noRepeat.gif");
+      webAudioPlayerApp.setRepeatState("noRepeat");
+    }
   }
 
   setTrack(track) {
