@@ -234,21 +234,21 @@ class WebAudioPlayerController {
 
     const repeatButton = document.getElementById("repeatButton");
     const player = document.getElementById("player");
+    const repeatState = webAudioPlayerApp.getRepeatState();
+    const handlePlayButton = webAudioPlayerApp.handlePlayButton;
+    const handleNextTrackButton = webAudioPlayerApp.handleNextTrackButton;
 
-    if (webAudioPlayerApp.getRepeatState() === "noRepeat") {
+    if (repeatState === "noRepeat") {
       repeatButton.setAttribute("src", "icons/repeatTrack.gif");
       webAudioPlayerApp.setRepeatState("repeatTrack");
-      player.removeEventListener(
-        "ended",
-        webAudioPlayerApp.handleNextTrackButton
-      );
-      player.addEventListener("ended", webAudioPlayerApp.handlePlayButton);
-    } else if (webAudioPlayerApp.getRepeatState() === "repeatTrack") {
+      player.removeEventListener("ended", handleNextTrackButton);
+      player.addEventListener("ended", handlePlayButton);
+    } else if (repeatState === "repeatTrack") {
       playList.convertToCircularDoublyLinkedList();
       repeatButton.setAttribute("src", "icons/repeatPlayList.gif");
       webAudioPlayerApp.setRepeatState("repeatPlayList");
-      player.removeEventListener("ended", webAudioPlayerApp.handlePlayButton);
-      player.addEventListener("ended", webAudioPlayerApp.handleNextTrackButton);
+      player.removeEventListener("ended", handlePlayButton);
+      player.addEventListener("ended", handleNextTrackButton);
     } else {
       playList.revertBackToDoublyLinkedList();
       repeatButton.setAttribute("src", "icons/noRepeat.gif");
