@@ -7,7 +7,9 @@ import {
 } from "./HelperFunctions.js";
 
 // ============== Model ========================
-const playList = new DoublyLinkedList();
+//save original playlist in order to more easily turn off shuffle
+const originalPlayList = new DoublyLinkedList();
+var playList = originalPlayList;
 
 // ============== View =========================
 class WebAudioPlayerView {
@@ -132,7 +134,7 @@ class WebAudioPlayerController {
       const source = URL.createObjectURL(files[i]);
       //duration is null because we don't know it yet; it will be set later
       const track = new Track(trackNumber, fileName, null, source);
-      playList.appendElement(track);
+      originalPlayList.appendElement(track);
 
       //sets duration for each track in the playlist; has to be done asynchronously
       setDurationsInPlayList(playList, source, i);
