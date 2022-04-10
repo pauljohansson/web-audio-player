@@ -125,11 +125,11 @@ class WebAudioPlayerController {
     if (e.target.files.length === 0) return null;
 
     //turn off shuffle when opening new audio files to not run into errors
-    if (webAudioPlayerApp.isShuffle()) webAudioPlayerApp.handleShuffleButton();
+    if (this.isShuffle()) this.handleShuffleButton();
 
     if (playList.head !== null) {
       playList.removeAllElements();
-      webAudioPlayerApp.clearPlayListTable();
+      this.clearPlayListTable();
     }
 
     const files = e.target.files;
@@ -146,25 +146,25 @@ class WebAudioPlayerController {
       setDurationsInPlayList(playList, source, i);
     }
 
-    webAudioPlayerApp.renderTable();
+    this.renderTable();
 
     //probably better with async and await
-    setTimeout(function () {
-      webAudioPlayerApp.updateDurationsInTable();
+    setTimeout(() => {
+      this.updateDurationsInTable();
     }, 1000);
 
     const firstTrack = playList.head.value;
-    webAudioPlayerApp.setTrack(firstTrack);
-    webAudioPlayerApp.setIndexOfCurrentTrack(0);
+    this.setTrack(firstTrack);
+    this.setIndexOfCurrentTrack(0);
   }
 
   handleStopButton() {
     const player = document.getElementById("player");
-    const indexOfCurrentTrack = webAudioPlayerApp.getIndexOfCurrentTrack();
+    const indexOfCurrentTrack = this.getIndexOfCurrentTrack();
     const currentTrackNumber =
       playList.getElementAtIndex(indexOfCurrentTrack).value.trackNumber;
 
-    webAudioPlayerApp.removeSelectionInTable(currentTrackNumber);
+    this.removeSelectionInTable(currentTrackNumber);
 
     player.pause();
     player.currentTime = 0;
@@ -172,11 +172,11 @@ class WebAudioPlayerController {
 
   handlePlayButton() {
     const player = document.getElementById("player");
-    const indexOfCurrentTrack = webAudioPlayerApp.getIndexOfCurrentTrack();
+    const indexOfCurrentTrack = this.getIndexOfCurrentTrack();
     const currentTrackNumber =
       playList.getElementAtIndex(indexOfCurrentTrack).value.trackNumber;
 
-    webAudioPlayerApp.selectTrackInTable(currentTrackNumber);
+    this.selectTrackInTable(currentTrackNumber);
 
     player.play();
   }
@@ -189,7 +189,7 @@ class WebAudioPlayerController {
 
   handlePreviousTrackButton() {
     const player = document.getElementById("player");
-    const indexOfCurrentTrack = webAudioPlayerApp.getIndexOfCurrentTrack();
+    const indexOfCurrentTrack = this.getIndexOfCurrentTrack();
     const currentTrack = playList.getElementAtIndex(indexOfCurrentTrack);
     const currentTrackNumber = currentTrack.value.trackNumber;
 
@@ -197,7 +197,7 @@ class WebAudioPlayerController {
 
     const previousTrackNumber = currentTrack.previous.value.trackNumber;
 
-    webAudioPlayerApp.removeSelectionInTable(currentTrackNumber);
+    this.removeSelectionInTable(currentTrackNumber);
 
     const previousTrack = currentTrack.previous.value;
     let nextIndex = indexOfCurrentTrack - 1;
@@ -207,16 +207,16 @@ class WebAudioPlayerController {
     if (playList.isCircular && indexOfCurrentTrack === indexOfFirstTrack)
       nextIndex = indexOfLastTrack;
 
-    webAudioPlayerApp.setTrack(previousTrack);
-    webAudioPlayerApp.setIndexOfCurrentTrack(nextIndex);
-    webAudioPlayerApp.selectTrackInTable(previousTrackNumber);
+    this.setTrack(previousTrack);
+    this.setIndexOfCurrentTrack(nextIndex);
+    this.selectTrackInTable(previousTrackNumber);
 
     player.play();
   }
 
   handleNextTrackButton() {
     const player = document.getElementById("player");
-    const indexOfCurrentTrack = webAudioPlayerApp.getIndexOfCurrentTrack();
+    const indexOfCurrentTrack = this.getIndexOfCurrentTrack();
     const currentTrack = playList.getElementAtIndex(indexOfCurrentTrack);
     const currentTrackNumber = currentTrack.value.trackNumber;
 
@@ -224,7 +224,7 @@ class WebAudioPlayerController {
 
     const nextTrackNumber = currentTrack.next.value.trackNumber;
 
-    webAudioPlayerApp.removeSelectionInTable(currentTrackNumber);
+    this.removeSelectionInTable(currentTrackNumber);
 
     const nextTrack = currentTrack.next.value;
     let nextIndex = indexOfCurrentTrack + 1;
@@ -234,9 +234,9 @@ class WebAudioPlayerController {
     if (playList.isCircular && indexOfCurrentTrack === indexOfLastTrack)
       nextIndex = indexOfFirstTrack;
 
-    webAudioPlayerApp.setTrack(nextTrack);
-    webAudioPlayerApp.setIndexOfCurrentTrack(nextIndex);
-    webAudioPlayerApp.selectTrackInTable(nextTrackNumber);
+    this.setTrack(nextTrack);
+    this.setIndexOfCurrentTrack(nextIndex);
+    this.selectTrackInTable(nextTrackNumber);
 
     player.play();
   }
@@ -247,25 +247,25 @@ class WebAudioPlayerController {
 
     const repeatButton = document.getElementById("repeatButton");
     const player = document.getElementById("player");
-    const repeatState = webAudioPlayerApp.getRepeatState();
-    const handlePlayButton = webAudioPlayerApp.handlePlayButton;
-    const handleNextTrackButton = webAudioPlayerApp.handleNextTrackButton;
+    const repeatState = this.getRepeatState();
+    const handlePlayButton = this.handlePlayButton;
+    const handleNextTrackButton = this.handleNextTrackButton;
 
     if (repeatState === "noRepeat") {
       repeatButton.setAttribute("src", "icons/repeatTrack.gif");
-      webAudioPlayerApp.setRepeatState("repeatTrack");
+      this.setRepeatState("repeatTrack");
       player.removeEventListener("ended", handleNextTrackButton);
       player.addEventListener("ended", handlePlayButton);
     } else if (repeatState === "repeatTrack") {
       playList.convertToCircularDoublyLinkedList();
       repeatButton.setAttribute("src", "icons/repeatPlayList.gif");
-      webAudioPlayerApp.setRepeatState("repeatPlayList");
+      this.setRepeatState("repeatPlayList");
       player.removeEventListener("ended", handlePlayButton);
       player.addEventListener("ended", handleNextTrackButton);
     } else {
       playList.revertBackToDoublyLinkedList();
       repeatButton.setAttribute("src", "icons/noRepeat.gif");
-      webAudioPlayerApp.setRepeatState("noRepeat");
+      this.setRepeatState("noRepeat");
     }
   }
 
@@ -274,19 +274,19 @@ class WebAudioPlayerController {
       return null;
 
     const shuffleButton = document.getElementById("shuffleButton");
-    const indexOfCurrentTrack = webAudioPlayerApp.getIndexOfCurrentTrack();
+    const indexOfCurrentTrack = this.getIndexOfCurrentTrack();
     const currentTrack = playList.getElementAtIndex(indexOfCurrentTrack);
     const currentTrackNumber = currentTrack.value.trackNumber;
 
-    webAudioPlayerApp.removeSelectionInTable(currentTrackNumber);
+    this.removeSelectionInTable(currentTrackNumber);
 
-    if (!webAudioPlayerApp.isShuffle()) {
-      webAudioPlayerApp.setShuffle(true);
-      webAudioPlayerApp.shuffleTracks();
+    if (!this.isShuffle()) {
+      this.setShuffle(true);
+      this.shuffleTracks();
       shuffleButton.setAttribute("src", "icons/shuffle.gif");
     } else {
-      webAudioPlayerApp.setShuffle(false);
-      webAudioPlayerApp.unShuffleTracks();
+      this.setShuffle(false);
+      this.unShuffleTracks();
       shuffleButton.setAttribute("src", "icons/noShuffle.gif");
     }
   }
@@ -307,20 +307,20 @@ class WebAudioPlayerController {
 
     playList = shuffledPlayList;
     const firstTrack = playList.head.value;
-    webAudioPlayerApp.setTrack(firstTrack);
-    webAudioPlayerApp.setIndexOfCurrentTrack(0);
+    this.setTrack(firstTrack);
+    this.setIndexOfCurrentTrack(0);
 
-    if (webAudioPlayerApp.getRepeatState() === "repeatPlayList")
+    if (this.getRepeatState() === "repeatPlayList")
       playList.convertToCircularDoublyLinkedList();
   }
 
   unShuffleTracks() {
     playList = originalPlayList;
     const firstTrack = playList.head.value;
-    webAudioPlayerApp.setTrack(firstTrack);
-    webAudioPlayerApp.setIndexOfCurrentTrack(0);
+    this.setTrack(firstTrack);
+    this.setIndexOfCurrentTrack(0);
 
-    if (webAudioPlayerApp.getRepeatState() === "repeatPlayList")
+    if (this.getRepeatState() === "repeatPlayList")
       playList.convertToCircularDoublyLinkedList();
   }
 
