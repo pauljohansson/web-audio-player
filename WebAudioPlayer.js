@@ -281,6 +281,10 @@ class WebAudioPlayerController {
       webAudioPlayerApp.setShuffle(true);
       webAudioPlayerApp.shuffleTracks();
       shuffleButton.setAttribute("src", "icons/shuffle.gif");
+    } else {
+      webAudioPlayerApp.setShuffle(false);
+      webAudioPlayerApp.unShuffleTracks();
+      shuffleButton.setAttribute("src", "icons/noShuffle.gif");
     }
   }
 
@@ -299,6 +303,16 @@ class WebAudioPlayerController {
     }
 
     playList = shuffledPlayList;
+    const firstTrack = playList.head.value;
+    webAudioPlayerApp.setTrack(firstTrack);
+    webAudioPlayerApp.setIndexOfCurrentTrack(0);
+
+    if (webAudioPlayerApp.getRepeatState() === "repeatPlayList")
+      playList.convertToCircularDoublyLinkedList();
+  }
+
+  unShuffleTracks() {
+    playList = originalPlayList;
     const firstTrack = playList.head.value;
     webAudioPlayerApp.setTrack(firstTrack);
     webAudioPlayerApp.setIndexOfCurrentTrack(0);
