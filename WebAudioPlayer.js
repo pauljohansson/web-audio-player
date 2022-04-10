@@ -116,6 +116,9 @@ class WebAudioPlayerController {
 
     const repeatButton = document.getElementById("repeatButton");
     repeatButton.onclick = this.handleRepeatButton;
+
+    const shuffleButton = document.getElementById("shuffleButton");
+    shuffleButton.onclick = this.handleShuffleButton;
   }
 
   handleFileSelect(e) {
@@ -261,6 +264,47 @@ class WebAudioPlayerController {
       repeatButton.setAttribute("src", "icons/noRepeat.gif");
       webAudioPlayerApp.setRepeatState("noRepeat");
     }
+  }
+
+  handleShuffleButton() {
+    if (playList.head === null || playList.head.value.duration === null)
+      return null;
+
+    const shuffleButton = document.getElementById("shuffleButton");
+    const indexOfCurrentTrack = webAudioPlayerApp.getIndexOfCurrentTrack();
+    const currentTrack = playList.getElementAtIndex(indexOfCurrentTrack);
+    const currentTrackNumber = currentTrack.value.trackNumber;
+
+    webAudioPlayerApp.removeSelectionInTable(currentTrackNumber);
+
+    if (!webAudioPlayerApp.isShuffle()) {
+      webAudioPlayerApp.setShuffle(true);
+      webAudioPlayerApp.shuffleTracks();
+      shuffleButton.setAttribute("src", "icons/shuffle.gif");
+    }
+  }
+
+  shuffleTracks() {
+    const shuffledPlayList = new DoublyLinkedList();
+    let savedIndicies = [];
+
+    for (let i = 0; i < playList.length; i++) savedIndicies.push(i);
+
+    for (let i = 0; i < playList.length; i++) {
+      const randomIndex = Math.floor(Math.random() * savedIndicies.length);
+      const usedIndex = savedIndicies[randomIndex];
+      savedIndicies.splice(savedIndicies.indexOf(usedIndex), 1);
+      const randomTrack = playList.getElementAtIndex(usedIndex).value;
+      shuffledPlayList.appendElement(randomTrack);
+    }
+
+    playList = shuffledPlayList;
+    const firstTrack = playList.head.value;
+    webAudioPlayerApp.setTrack(firstTrack);
+    webAudioPlayerApp.setIndexOfCurrentTrack(0);
+
+    if (webAudioPlayerApp.getRepeatState() === "repeatPlayList")
+      playList.convertToCircularDoublyLinkedList();
   }
 
   setTrack(track) {
