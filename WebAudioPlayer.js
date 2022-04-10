@@ -356,26 +356,6 @@ class WebAudioPlayerController {
     if (typeof boolean !== "boolean") return null;
     this.shuffle = boolean;
   }
-
-  renderTable() {
-    this.webAudioPlayerView.renderTable();
-  }
-
-  clearPlayListTable() {
-    this.webAudioPlayerView.clearPlayListTable();
-  }
-
-  updateDurationsInTable() {
-    this.webAudioPlayerView.updateDurationsInTable();
-  }
-
-  selectTrackInTable(rowIndex) {
-    this.webAudioPlayerView.selectTrackInTable(rowIndex);
-  }
-
-  removeSelectionInTable(rowIndex) {
-    this.webAudioPlayerView.removeSelectionInTable(rowIndex);
-  }
 }
 
 const webAudioPlayerView = new WebAudioPlayerView();
