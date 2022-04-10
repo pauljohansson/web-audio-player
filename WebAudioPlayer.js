@@ -7,7 +7,9 @@ import {
 } from "./HelperFunctions.js";
 
 // ============== Model ========================
-const playList = new DoublyLinkedList();
+//save original playlist in order to more easily turn off shuffle
+const originalPlayList = new DoublyLinkedList();
+var playList = originalPlayList;
 
 // ============== View =========================
 class WebAudioPlayerView {
@@ -87,6 +89,7 @@ class WebAudioPlayerController {
 
     this.indexOfCurrentTrack = 0;
     this.repeatState = "noRepeat";
+    this.shuffle = false;
 
     document
       .getElementById("files")
@@ -113,10 +116,16 @@ class WebAudioPlayerController {
 
     const repeatButton = document.getElementById("repeatButton");
     repeatButton.onclick = this.handleRepeatButton;
+
+    const shuffleButton = document.getElementById("shuffleButton");
+    shuffleButton.onclick = this.handleShuffleButton;
   }
 
   handleFileSelect(e) {
     if (e.target.files.length === 0) return null;
+
+    //turn off shuffle when opening new audio files to not run into errors
+    if (webAudioPlayerApp.isShuffle()) webAudioPlayerApp.handleShuffleButton();
 
     if (playList.head !== null) {
       playList.removeAllElements();
@@ -131,7 +140,7 @@ class WebAudioPlayerController {
       const source = URL.createObjectURL(files[i]);
       //duration is null because we don't know it yet; it will be set later
       const track = new Track(trackNumber, fileName, null, source);
-      playList.appendElement(track);
+      originalPlayList.appendElement(track);
 
       //sets duration for each track in the playlist; has to be done asynchronously
       setDurationsInPlayList(playList, source, i);
@@ -260,6 +269,61 @@ class WebAudioPlayerController {
     }
   }
 
+  handleShuffleButton() {
+    if (playList.head === null || playList.head.value.duration === null)
+      return null;
+
+    const shuffleButton = document.getElementById("shuffleButton");
+    const indexOfCurrentTrack = webAudioPlayerApp.getIndexOfCurrentTrack();
+    const currentTrack = playList.getElementAtIndex(indexOfCurrentTrack);
+    const currentTrackNumber = currentTrack.value.trackNumber;
+
+    webAudioPlayerApp.removeSelectionInTable(currentTrackNumber);
+
+    if (!webAudioPlayerApp.isShuffle()) {
+      webAudioPlayerApp.setShuffle(true);
+      webAudioPlayerApp.shuffleTracks();
+      shuffleButton.setAttribute("src", "icons/shuffle.gif");
+    } else {
+      webAudioPlayerApp.setShuffle(false);
+      webAudioPlayerApp.unShuffleTracks();
+      shuffleButton.setAttribute("src", "icons/noShuffle.gif");
+    }
+  }
+
+  shuffleTracks() {
+    const shuffledPlayList = new DoublyLinkedList();
+    let savedIndicies = [];
+
+    for (let i = 0; i < playList.length; i++) savedIndicies.push(i);
+
+    for (let i = 0; i < playList.length; i++) {
+      const randomIndex = Math.floor(Math.random() * savedIndicies.length);
+      const usedIndex = savedIndicies[randomIndex];
+      savedIndicies.splice(savedIndicies.indexOf(usedIndex), 1);
+      const randomTrack = playList.getElementAtIndex(usedIndex).value;
+      shuffledPlayList.appendElement(randomTrack);
+    }
+
+    playList = shuffledPlayList;
+    const firstTrack = playList.head.value;
+    webAudioPlayerApp.setTrack(firstTrack);
+    webAudioPlayerApp.setIndexOfCurrentTrack(0);
+
+    if (webAudioPlayerApp.getRepeatState() === "repeatPlayList")
+      playList.convertToCircularDoublyLinkedList();
+  }
+
+  unShuffleTracks() {
+    playList = originalPlayList;
+    const firstTrack = playList.head.value;
+    webAudioPlayerApp.setTrack(firstTrack);
+    webAudioPlayerApp.setIndexOfCurrentTrack(0);
+
+    if (webAudioPlayerApp.getRepeatState() === "repeatPlayList")
+      playList.convertToCircularDoublyLinkedList();
+  }
+
   setTrack(track) {
     const player = document.getElementById("player");
     player.setAttribute("src", track.source);
@@ -285,6 +349,15 @@ class WebAudioPlayerController {
     if (state === "repeatTrack" || state === "repeatPlayList")
       this.repeatState = state;
     else this.repeatState = "noRepeat";
+  }
+
+  isShuffle() {
+    return this.shuffle;
+  }
+
+  setShuffle(boolean) {
+    if (typeof boolean !== "boolean") return null;
+    this.shuffle = boolean;
   }
 
   renderTable() {
