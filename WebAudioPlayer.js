@@ -93,32 +93,32 @@ class WebAudioPlayerController {
 
     document
       .getElementById("files")
-      .addEventListener("change", this.handleFileSelect);
+      .addEventListener("change", this.handleFileSelect.bind(this));
 
     document
       .getElementById("player")
-      .addEventListener("ended", this.handleNextTrackButton);
+      .addEventListener("ended", this.handleNextTrackButton.bind(this));
 
     const stopButton = document.getElementById("stopButton");
-    stopButton.onclick = this.handleStopButton;
+    stopButton.onclick = this.handleStopButton.bind(this);
 
     const playButton = document.getElementById("playButton");
-    playButton.onclick = this.handlePlayButton;
+    playButton.onclick = this.handlePlayButton.bind(this);
 
     const pauseButton = document.getElementById("pauseButton");
     pauseButton.onclick = this.handlePauseButton;
 
     const previousTrackButton = document.getElementById("previousTrackButton");
-    previousTrackButton.onclick = this.handlePreviousTrackButton;
+    previousTrackButton.onclick = this.handlePreviousTrackButton.bind(this);
 
     const nextTrackButton = document.getElementById("nextTrackButton");
-    nextTrackButton.onclick = this.handleNextTrackButton;
+    nextTrackButton.onclick = this.handleNextTrackButton.bind(this);
 
     const repeatButton = document.getElementById("repeatButton");
-    repeatButton.onclick = this.handleRepeatButton;
+    repeatButton.onclick = this.handleRepeatButton.bind(this);
 
     const shuffleButton = document.getElementById("shuffleButton");
-    shuffleButton.onclick = this.handleShuffleButton;
+    shuffleButton.onclick = this.handleShuffleButton.bind(this);
   }
 
   handleFileSelect(e) {
