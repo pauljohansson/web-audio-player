@@ -124,6 +124,9 @@ class WebAudioPlayerController {
   handleFileSelect(e) {
     if (e.target.files.length === 0) return null;
 
+    //turn off shuffle when opening new audio files to not run into errors
+    if (webAudioPlayerApp.isShuffle()) webAudioPlayerApp.handleShuffleButton();
+
     if (playList.head !== null) {
       playList.removeAllElements();
       webAudioPlayerApp.clearPlayListTable();
