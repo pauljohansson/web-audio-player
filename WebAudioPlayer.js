@@ -129,7 +129,7 @@ class WebAudioPlayerController {
 
     if (playList.head !== null) {
       playList.removeAllElements();
-      this.clearPlayListTable();
+      this.webAudioPlayerView.clearPlayListTable();
     }
 
     const files = e.target.files;
@@ -146,11 +146,11 @@ class WebAudioPlayerController {
       setDurationsInPlayList(playList, source, i);
     }
 
-    this.renderTable();
+    this.webAudioPlayerView.renderTable();
 
     //probably better with async and await
     setTimeout(() => {
-      this.updateDurationsInTable();
+      this.webAudioPlayerView.updateDurationsInTable();
     }, 1000);
 
     const firstTrack = playList.head.value;
@@ -164,7 +164,7 @@ class WebAudioPlayerController {
     const currentTrackNumber =
       playList.getElementAtIndex(indexOfCurrentTrack).value.trackNumber;
 
-    this.removeSelectionInTable(currentTrackNumber);
+    this.webAudioPlayerView.removeSelectionInTable(currentTrackNumber);
 
     player.pause();
     player.currentTime = 0;
@@ -176,7 +176,7 @@ class WebAudioPlayerController {
     const currentTrackNumber =
       playList.getElementAtIndex(indexOfCurrentTrack).value.trackNumber;
 
-    this.selectTrackInTable(currentTrackNumber);
+    this.webAudioPlayerView.selectTrackInTable(currentTrackNumber);
 
     player.play();
   }
@@ -197,7 +197,7 @@ class WebAudioPlayerController {
 
     const previousTrackNumber = currentTrack.previous.value.trackNumber;
 
-    this.removeSelectionInTable(currentTrackNumber);
+    this.webAudioPlayerView.removeSelectionInTable(currentTrackNumber);
 
     const previousTrack = currentTrack.previous.value;
     let nextIndex = indexOfCurrentTrack - 1;
@@ -209,7 +209,7 @@ class WebAudioPlayerController {
 
     this.setTrack(previousTrack);
     this.setIndexOfCurrentTrack(nextIndex);
-    this.selectTrackInTable(previousTrackNumber);
+    this.webAudioPlayerView.selectTrackInTable(previousTrackNumber);
 
     player.play();
   }
@@ -224,7 +224,7 @@ class WebAudioPlayerController {
 
     const nextTrackNumber = currentTrack.next.value.trackNumber;
 
-    this.removeSelectionInTable(currentTrackNumber);
+    this.webAudioPlayerView.removeSelectionInTable(currentTrackNumber);
 
     const nextTrack = currentTrack.next.value;
     let nextIndex = indexOfCurrentTrack + 1;
@@ -236,7 +236,7 @@ class WebAudioPlayerController {
 
     this.setTrack(nextTrack);
     this.setIndexOfCurrentTrack(nextIndex);
-    this.selectTrackInTable(nextTrackNumber);
+    this.webAudioPlayerView.selectTrackInTable(nextTrackNumber);
 
     player.play();
   }
@@ -275,7 +275,7 @@ class WebAudioPlayerController {
     const currentTrack = playList.getElementAtIndex(indexOfCurrentTrack);
     const currentTrackNumber = currentTrack.value.trackNumber;
 
-    this.removeSelectionInTable(currentTrackNumber);
+    this.webAudioPlayerView.removeSelectionInTable(currentTrackNumber);
 
     if (!this.isShuffle()) {
       this.setShuffle(true);
