@@ -251,14 +251,17 @@ class WebAudioPlayerController {
     if (this.getRepeatState() === "noRepeat") {
       repeatButton.setAttribute("src", "icons/repeatTrack.gif");
       this.setRepeatState("repeatTrack");
-      player.removeEventListener("ended", this.handleNextTrackButton);
-      player.addEventListener("ended", this.handlePlayButton);
+      player.removeEventListener(
+        "ended",
+        this.handleNextTrackButton.bind(this)
+      );
+      player.addEventListener("ended", this.handlePlayButton.bind(this));
     } else if (this.getRepeatState() === "repeatTrack") {
       playList.convertToCircularDoublyLinkedList();
       repeatButton.setAttribute("src", "icons/repeatPlayList.gif");
       this.setRepeatState("repeatPlayList");
-      player.removeEventListener("ended", this.handlePlayButton);
-      player.addEventListener("ended", this.handleNextTrackButton);
+      player.removeEventListener("ended", this.handlePlayButton.bind(this));
+      player.addEventListener("ended", this.handleNextTrackButton.bind(this));
     } else {
       playList.revertBackToDoublyLinkedList();
       repeatButton.setAttribute("src", "icons/noRepeat.gif");
