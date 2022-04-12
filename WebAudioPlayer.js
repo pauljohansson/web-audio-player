@@ -91,34 +91,35 @@ class WebAudioPlayerController {
     this.repeatState = "noRepeat";
     this.shuffle = false;
 
+    this.stopButton = document.getElementById("stopButton");
+    this.stopButton.onclick = this.handleStopButton.bind(this);
+
+    this.playButton = document.getElementById("playButton");
+    this.playButton.onclick = this.handlePlayButton.bind(this);
+
+    this.pauseButton = document.getElementById("pauseButton");
+    this.pauseButton.onclick = this.handlePauseButton;
+
+    this.previousTrackButton = document.getElementById("previousTrackButton");
+    this.previousTrackButton.onclick =
+      this.handlePreviousTrackButton.bind(this);
+
+    this.nextTrackButton = document.getElementById("nextTrackButton");
+    this.nextTrackButton.onclick = this.handleNextTrackButton.bind(this);
+
+    this.repeatButton = document.getElementById("repeatButton");
+    this.repeatButton.onclick = this.handleRepeatButton.bind(this);
+
+    this.shuffleButton = document.getElementById("shuffleButton");
+    this.shuffleButton.onclick = this.handleShuffleButton.bind(this);
+
     document
       .getElementById("files")
       .addEventListener("change", this.handleFileSelect.bind(this));
 
     document
       .getElementById("player")
-      .addEventListener("ended", this.handleNextTrackButton.bind(this));
-
-    const stopButton = document.getElementById("stopButton");
-    stopButton.onclick = this.handleStopButton.bind(this);
-
-    const playButton = document.getElementById("playButton");
-    playButton.onclick = this.handlePlayButton.bind(this);
-
-    const pauseButton = document.getElementById("pauseButton");
-    pauseButton.onclick = this.handlePauseButton;
-
-    const previousTrackButton = document.getElementById("previousTrackButton");
-    previousTrackButton.onclick = this.handlePreviousTrackButton.bind(this);
-
-    const nextTrackButton = document.getElementById("nextTrackButton");
-    nextTrackButton.onclick = this.handleNextTrackButton.bind(this);
-
-    const repeatButton = document.getElementById("repeatButton");
-    repeatButton.onclick = this.handleRepeatButton.bind(this);
-
-    const shuffleButton = document.getElementById("shuffleButton");
-    shuffleButton.onclick = this.handleShuffleButton.bind(this);
+      .addEventListener("ended", this.nextTrackButton.onclick);
   }
 
   handleFileSelect(e) {
@@ -159,6 +160,8 @@ class WebAudioPlayerController {
   }
 
   handleStopButton() {
+    if (playList.head === null) return null;
+
     const player = document.getElementById("player");
     const indexOfCurrentTrack = this.getIndexOfCurrentTrack();
     const currentTrackNumber =
@@ -171,6 +174,8 @@ class WebAudioPlayerController {
   }
 
   handlePlayButton() {
+    if (playList.head === null) return null;
+
     const player = document.getElementById("player");
     const indexOfCurrentTrack = this.getIndexOfCurrentTrack();
     const currentTrackNumber =
@@ -188,6 +193,8 @@ class WebAudioPlayerController {
   }
 
   handlePreviousTrackButton() {
+    if (playList.head === null) return null;
+
     const player = document.getElementById("player");
     const indexOfCurrentTrack = this.getIndexOfCurrentTrack();
     const currentTrack = playList.getElementAtIndex(indexOfCurrentTrack);
@@ -215,6 +222,8 @@ class WebAudioPlayerController {
   }
 
   handleNextTrackButton() {
+    if (playList.head === null) return null;
+
     const player = document.getElementById("player");
     const indexOfCurrentTrack = this.getIndexOfCurrentTrack();
     const currentTrack = playList.getElementAtIndex(indexOfCurrentTrack);
@@ -251,17 +260,14 @@ class WebAudioPlayerController {
     if (this.getRepeatState() === "noRepeat") {
       repeatButton.setAttribute("src", "icons/repeatTrack.gif");
       this.setRepeatState("repeatTrack");
-      player.removeEventListener(
-        "ended",
-        this.handleNextTrackButton.bind(this)
-      );
-      player.addEventListener("ended", this.handlePlayButton.bind(this));
+      player.removeEventListener("ended", this.nextTrackButton.onclick);
+      player.addEventListener("ended", this.playButton.onclick);
     } else if (this.getRepeatState() === "repeatTrack") {
       playList.convertToCircularDoublyLinkedList();
       repeatButton.setAttribute("src", "icons/repeatPlayList.gif");
       this.setRepeatState("repeatPlayList");
-      player.removeEventListener("ended", this.handlePlayButton.bind(this));
-      player.addEventListener("ended", this.handleNextTrackButton.bind(this));
+      player.removeEventListener("ended", this.playButton.onclick);
+      player.addEventListener("ended", this.nextTrackButton.onclick);
     } else {
       playList.revertBackToDoublyLinkedList();
       repeatButton.setAttribute("src", "icons/noRepeat.gif");
