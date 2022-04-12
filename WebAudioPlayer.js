@@ -91,14 +91,6 @@ class WebAudioPlayerController {
     this.repeatState = "noRepeat";
     this.shuffle = false;
 
-    document
-      .getElementById("files")
-      .addEventListener("change", this.handleFileSelect.bind(this));
-
-    document
-      .getElementById("player")
-      .addEventListener("ended", this.handleNextTrackButton.bind(this));
-
     this.stopButton = document.getElementById("stopButton");
     this.stopButton.onclick = this.handleStopButton.bind(this);
 
@@ -120,6 +112,14 @@ class WebAudioPlayerController {
 
     this.shuffleButton = document.getElementById("shuffleButton");
     this.shuffleButton.onclick = this.handleShuffleButton.bind(this);
+
+    document
+      .getElementById("files")
+      .addEventListener("change", this.handleFileSelect.bind(this));
+
+    document
+      .getElementById("player")
+      .addEventListener("ended", this.nextTrackButton.onclick);
   }
 
   handleFileSelect(e) {
@@ -252,17 +252,14 @@ class WebAudioPlayerController {
     if (this.getRepeatState() === "noRepeat") {
       repeatButton.setAttribute("src", "icons/repeatTrack.gif");
       this.setRepeatState("repeatTrack");
-      player.removeEventListener(
-        "ended",
-        this.handleNextTrackButton.bind(this)
-      );
-      player.addEventListener("ended", this.handlePlayButton.bind(this));
+      player.removeEventListener("ended", this.nextTrackButton.onclick);
+      player.addEventListener("ended", this.playButton.onclick);
     } else if (this.getRepeatState() === "repeatTrack") {
       playList.convertToCircularDoublyLinkedList();
       repeatButton.setAttribute("src", "icons/repeatPlayList.gif");
       this.setRepeatState("repeatPlayList");
-      player.removeEventListener("ended", this.handlePlayButton.bind(this));
-      player.addEventListener("ended", this.handleNextTrackButton.bind(this));
+      player.removeEventListener("ended", this.playButton.onclick);
+      player.addEventListener("ended", this.nextTrackButton.onclick);
     } else {
       playList.revertBackToDoublyLinkedList();
       repeatButton.setAttribute("src", "icons/noRepeat.gif");
