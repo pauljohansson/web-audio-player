@@ -160,6 +160,8 @@ class WebAudioPlayerController {
   }
 
   handleStopButton() {
+    if (playList.head === null) return null;
+
     const player = document.getElementById("player");
     const indexOfCurrentTrack = this.getIndexOfCurrentTrack();
     const currentTrackNumber =
@@ -172,6 +174,8 @@ class WebAudioPlayerController {
   }
 
   handlePlayButton() {
+    if (playList.head === null) return null;
+
     const player = document.getElementById("player");
     const indexOfCurrentTrack = this.getIndexOfCurrentTrack();
     const currentTrackNumber =
@@ -189,6 +193,8 @@ class WebAudioPlayerController {
   }
 
   handlePreviousTrackButton() {
+    if (playList.head === null) return null;
+
     const player = document.getElementById("player");
     const indexOfCurrentTrack = this.getIndexOfCurrentTrack();
     const currentTrack = playList.getElementAtIndex(indexOfCurrentTrack);
@@ -216,6 +222,8 @@ class WebAudioPlayerController {
   }
 
   handleNextTrackButton() {
+    if (playList.head === null) return null;
+
     const player = document.getElementById("player");
     const indexOfCurrentTrack = this.getIndexOfCurrentTrack();
     const currentTrack = playList.getElementAtIndex(indexOfCurrentTrack);
