@@ -99,26 +99,27 @@ class WebAudioPlayerController {
       .getElementById("player")
       .addEventListener("ended", this.handleNextTrackButton.bind(this));
 
-    const stopButton = document.getElementById("stopButton");
-    stopButton.onclick = this.handleStopButton.bind(this);
+    this.stopButton = document.getElementById("stopButton");
+    this.stopButton.onclick = this.handleStopButton.bind(this);
 
-    const playButton = document.getElementById("playButton");
-    playButton.onclick = this.handlePlayButton.bind(this);
+    this.playButton = document.getElementById("playButton");
+    this.playButton.onclick = this.handlePlayButton.bind(this);
 
-    const pauseButton = document.getElementById("pauseButton");
-    pauseButton.onclick = this.handlePauseButton;
+    this.pauseButton = document.getElementById("pauseButton");
+    this.pauseButton.onclick = this.handlePauseButton;
 
-    const previousTrackButton = document.getElementById("previousTrackButton");
-    previousTrackButton.onclick = this.handlePreviousTrackButton.bind(this);
+    this.previousTrackButton = document.getElementById("previousTrackButton");
+    this.previousTrackButton.onclick =
+      this.handlePreviousTrackButton.bind(this);
 
-    const nextTrackButton = document.getElementById("nextTrackButton");
-    nextTrackButton.onclick = this.handleNextTrackButton.bind(this);
+    this.nextTrackButton = document.getElementById("nextTrackButton");
+    this.nextTrackButton.onclick = this.handleNextTrackButton.bind(this);
 
-    const repeatButton = document.getElementById("repeatButton");
-    repeatButton.onclick = this.handleRepeatButton.bind(this);
+    this.repeatButton = document.getElementById("repeatButton");
+    this.repeatButton.onclick = this.handleRepeatButton.bind(this);
 
-    const shuffleButton = document.getElementById("shuffleButton");
-    shuffleButton.onclick = this.handleShuffleButton.bind(this);
+    this.shuffleButton = document.getElementById("shuffleButton");
+    this.shuffleButton.onclick = this.handleShuffleButton.bind(this);
   }
 
   handleFileSelect(e) {
