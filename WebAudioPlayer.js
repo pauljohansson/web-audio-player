@@ -358,6 +358,17 @@ class WebAudioPlayerController {
     else this.repeatState = "noRepeat";
   }
 
+  getIndexByTrackNumber(trackNumber) {
+    let currentNode = playList.head;
+
+    while (currentNode) {
+      if (currentNode.value.trackNumber == trackNumber)
+        return playList.getIndexOfElement(currentNode.value);
+
+      currentNode = currentNode.next;
+    }
+  }
+
   isShuffle() {
     return this.shuffle;
   }
