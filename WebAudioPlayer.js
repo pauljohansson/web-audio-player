@@ -348,6 +348,8 @@ class WebAudioPlayerController {
 
     this.webAudioPlayerView.removeSelectionInTable(currentTrackNumber);
 
+    if (this.isShuffle()) this.shuffleTracks();
+
     const indexOfChosenTrack = this.getIndexByTrackNumber(rowId);
     const chosenTrack = playList.getElementAtIndex(indexOfChosenTrack).value;
 
