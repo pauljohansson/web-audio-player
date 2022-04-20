@@ -49,6 +49,7 @@ class WebAudioPlayerView {
     newRow.insertCell(0).outerHTML = "<th>Track</th>";
     newRow.insertCell(1).outerHTML = "<th>Filename</th>";
     newRow.insertCell(2).outerHTML = "<th>Duration</th>";
+    newRow.setAttribute("id", 0);
   }
 
   updateDurationsInTable() {
