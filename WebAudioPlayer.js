@@ -49,6 +49,7 @@ class WebAudioPlayerView {
     newRow.insertCell(0).outerHTML = "<th>Track</th>";
     newRow.insertCell(1).outerHTML = "<th>Filename</th>";
     newRow.insertCell(2).outerHTML = "<th>Duration</th>";
+    newRow.setAttribute("id", 0);
   }
 
   updateDurationsInTable() {
@@ -120,6 +121,10 @@ class WebAudioPlayerController {
     document
       .getElementById("player")
       .addEventListener("ended", this.nextTrackButton.onclick);
+
+    document
+      .getElementById("playListTable")
+      .addEventListener("click", this.handleClickInTable.bind(this));
   }
 
   handleFileSelect(e) {
@@ -289,6 +294,11 @@ class WebAudioPlayerController {
     if (!this.isShuffle()) {
       this.setShuffle(true);
       this.shuffleTracks();
+
+      const firstTrack = playList.head.value;
+
+      this.setTrack(firstTrack);
+      this.setIndexOfCurrentTrack(0);
       shuffleButton.setAttribute("src", "icons/shuffle.gif");
     } else {
       this.setShuffle(false);
@@ -312,9 +322,6 @@ class WebAudioPlayerController {
     }
 
     playList = shuffledPlayList;
-    const firstTrack = playList.head.value;
-    this.setTrack(firstTrack);
-    this.setIndexOfCurrentTrack(0);
 
     if (this.getRepeatState() === "repeatPlayList")
       playList.convertToCircularDoublyLinkedList();
@@ -328,6 +335,27 @@ class WebAudioPlayerController {
 
     if (this.getRepeatState() === "repeatPlayList")
       playList.convertToCircularDoublyLinkedList();
+  }
+
+  handleClickInTable(e) {
+    const rowId = e.target.closest("tr").getAttribute("id");
+
+    if (rowId == 0) return null;
+
+    const indexOfCurrentTrack = this.getIndexOfCurrentTrack();
+    const currentTrack = playList.getElementAtIndex(indexOfCurrentTrack);
+    const currentTrackNumber = currentTrack.value.trackNumber;
+
+    this.webAudioPlayerView.removeSelectionInTable(currentTrackNumber);
+
+    if (this.isShuffle()) this.shuffleTracks();
+
+    const indexOfChosenTrack = this.getIndexByTrackNumber(rowId);
+    const chosenTrack = playList.getElementAtIndex(indexOfChosenTrack).value;
+
+    this.setTrack(chosenTrack);
+    this.setIndexOfCurrentTrack(indexOfChosenTrack);
+    this.handlePlayButton();
   }
 
   setTrack(track) {
@@ -355,6 +383,17 @@ class WebAudioPlayerController {
     if (state === "repeatTrack" || state === "repeatPlayList")
       this.repeatState = state;
     else this.repeatState = "noRepeat";
+  }
+
+  getIndexByTrackNumber(trackNumber) {
+    let currentNode = playList.head;
+
+    while (currentNode) {
+      if (currentNode.value.trackNumber == trackNumber)
+        return playList.getIndexOfElement(currentNode.value);
+
+      currentNode = currentNode.next;
+    }
   }
 
   isShuffle() {
