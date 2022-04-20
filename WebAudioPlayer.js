@@ -335,7 +335,24 @@ class WebAudioPlayerController {
       playList.convertToCircularDoublyLinkedList();
   }
 
-  handleClickInTable(e) {}
+  handleClickInTable(e) {
+    const rowId = e.target.closest("tr").getAttribute("id");
+
+    if (rowId == 0) return null;
+
+    const indexOfCurrentTrack = this.getIndexOfCurrentTrack();
+    const currentTrack = playList.getElementAtIndex(indexOfCurrentTrack);
+    const currentTrackNumber = currentTrack.value.trackNumber;
+
+    this.webAudioPlayerView.removeSelectionInTable(currentTrackNumber);
+
+    const indexOfChosenTrack = this.getIndexByTrackNumber(rowId);
+    const chosenTrack = playList.getElementAtIndex(indexOfChosenTrack).value;
+
+    this.setTrack(chosenTrack);
+    this.setIndexOfCurrentTrack(indexOfChosenTrack);
+    this.handlePlayButton();
+  }
 
   setTrack(track) {
     const player = document.getElementById("player");
