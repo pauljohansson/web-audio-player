@@ -294,6 +294,11 @@ class WebAudioPlayerController {
     if (!this.isShuffle()) {
       this.setShuffle(true);
       this.shuffleTracks();
+
+      const firstTrack = playList.head.value;
+
+      this.setTrack(firstTrack);
+      this.setIndexOfCurrentTrack(0);
       shuffleButton.setAttribute("src", "icons/shuffle.gif");
     } else {
       this.setShuffle(false);
@@ -317,9 +322,6 @@ class WebAudioPlayerController {
     }
 
     playList = shuffledPlayList;
-    const firstTrack = playList.head.value;
-    this.setTrack(firstTrack);
-    this.setIndexOfCurrentTrack(0);
 
     if (this.getRepeatState() === "repeatPlayList")
       playList.convertToCircularDoublyLinkedList();
