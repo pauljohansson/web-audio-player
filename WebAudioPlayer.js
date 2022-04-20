@@ -121,6 +121,10 @@ class WebAudioPlayerController {
     document
       .getElementById("player")
       .addEventListener("ended", this.nextTrackButton.onclick);
+
+    document
+      .getElementById("playListTable")
+      .addEventListener("click", this.handleClickInTable.bind(this));
   }
 
   handleFileSelect(e) {
@@ -330,6 +334,8 @@ class WebAudioPlayerController {
     if (this.getRepeatState() === "repeatPlayList")
       playList.convertToCircularDoublyLinkedList();
   }
+
+  handleClickInTable(e) {}
 
   setTrack(track) {
     const player = document.getElementById("player");
