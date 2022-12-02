@@ -9,64 +9,81 @@
     <title>Web Audio Player</title>
   </head>
   <body>
-    <h1>Web Audio Player</h1>
-    <p>Play supported local audio files on your device</p>
-    <div id="openFiles">
-      <input type="file" id="files" accept="audio/*" name="files[]" multiple />
-    </div>
-    <div id="playerControls">
-      <input
-        type="image"
-        class="mediaButton"
-        id="stopButton"
-        src="icons/stop.gif"
-      />
-      <input
-        type="image"
-        class="mediaButton"
-        id="playButton"
-        src="icons/play.gif"
-      />
-      <input
-        type="image"
-        class="mediaButton"
-        id="pauseButton"
-        src="icons/pause.gif"
-      />
-      <input
-        type="image"
-        class="mediaButton"
-        id="previousTrackButton"
-        src="icons/previous.gif"
-      />
-      <input
-        type="image"
-        class="mediaButton"
-        id="nextTrackButton"
-        src="icons/next.gif"
-      />
-      <input
-        type="image"
-        class="mediaButton"
-        id="repeatButton"
-        src="icons/noRepeat.gif"
-      />
-      <input
-        type="image"
-        class="mediaButton"
-        id="shuffleButton"
-        src="icons/noShuffle.gif"
-      />
-    </div>
-    <audio id="player" preload="metadata"></audio>
-    <div id="playListContainer">
-      <table id="playListTable">
-        <tr id="0">
-          <th>Track</th>
-          <th>Filename</th>
-          <th>Duration</th>
-        </tr>
-      </table>
+    <div class="app-container">
+      <header class="header">
+        <h1>Web Audio Player</h1>
+        <p>Play supported local audio files on your device!</p>
+      </header>
+      <section class="open-files-section">
+        <label for="files" class="file-upload"></label>
+        <input
+          type="file"
+          id="files"
+          accept="audio/*"
+          name="files[]"
+          multiple
+        />
+      </section>
+      <section class="player-controls-section">
+        <div class="usual-controls">
+          <input
+            type="image"
+            class="media-button"
+            id="stop-button"
+            src="icons/stop.gif"
+          />
+          <input
+            type="image"
+            class="media-button"
+            id="play-button"
+            src="icons/play.gif"
+          />
+          <input
+            type="image"
+            class="media-button"
+            id="pause-button"
+            src="icons/pause.gif"
+          />
+          <input
+            type="image"
+            class="media-button"
+            id="previous-track-button"
+            src="icons/previous.gif"
+          />
+          <input
+            type="image"
+            class="media-button"
+            id="next-track-button"
+            src="icons/next.gif"
+          />
+        </div>
+        <div class="options-controls">
+          <input
+            type="image"
+            class="media-button"
+            id="repeat-button"
+            src="icons/no-repeat.gif"
+          />
+          <input
+            type="image"
+            class="media-button"
+            id="shuffle-button"
+            src="icons/no-shuffle.gif"
+          />
+        </div>
+      </section>
+      <section class="audio-player-section">
+        <audio id="player" preload="metadata"></audio>
+        <div class="playlist-container">
+          <table class="playlist-table">
+            <tr id="0">
+              <th>Track</th>
+              <th>Filename</th>
+              <th>Duration</th>
+            </tr>
+          </table>
+        </div>
+      </section>
     </div>
   </body>
 </html>
