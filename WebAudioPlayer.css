@@ -41,6 +41,9 @@
 
 .media-button {
   cursor: pointer;
+  width: 64px;
+  height: 64px;
+  margin: 15px;
 }
 
 .audio-player-section {
