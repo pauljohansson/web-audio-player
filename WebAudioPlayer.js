@@ -19,7 +19,7 @@ class WebAudioPlayerView {
 
   renderTable() {
     const playList = webAudioPlayerApp.getPlayList();
-    const playListTable = document.getElementById("playListTable");
+    const playListTable = document.getElementsByClassName("playlist-table")[0];
 
     for (let i = 0; i < playList.length; i++) {
       const newRow = playListTable.insertRow(i + 1);
@@ -27,9 +27,9 @@ class WebAudioPlayerView {
       const fileNameCell = newRow.insertCell(1);
       const durationCell = newRow.insertCell(2);
 
-      trackCell.setAttribute("class", "rightAlignText");
+      trackCell.setAttribute("class", "right-align-text");
       durationCell.setAttribute("id", `dur${i + 1}`);
-      durationCell.setAttribute("class", "rightAlignText");
+      durationCell.setAttribute("class", "right-align-text");
 
       trackCell.textContent = playList.getElementAtIndex(i).value.trackNumber;
       fileNameCell.textContent = playList.getElementAtIndex(i).value.fileName;
@@ -40,7 +40,7 @@ class WebAudioPlayerView {
   }
 
   clearPlayListTable() {
-    const playListTable = document.getElementById("playListTable");
+    const playListTable = document.getElementsByClassName("playlist-table")[0];
 
     while (playListTable.firstChild) playListTable.firstChild.remove();
 
@@ -92,26 +92,26 @@ class WebAudioPlayerController {
     this.repeatState = "noRepeat";
     this.shuffle = false;
 
-    this.stopButton = document.getElementById("stopButton");
+    this.stopButton = document.getElementById("stop-button");
     this.stopButton.onclick = this.handleStopButton.bind(this);
 
-    this.playButton = document.getElementById("playButton");
+    this.playButton = document.getElementById("play-button");
     this.playButton.onclick = this.handlePlayButton.bind(this);
 
-    this.pauseButton = document.getElementById("pauseButton");
+    this.pauseButton = document.getElementById("pause-button");
     this.pauseButton.onclick = this.handlePauseButton;
 
-    this.previousTrackButton = document.getElementById("previousTrackButton");
+    this.previousTrackButton = document.getElementById("previous-track-button");
     this.previousTrackButton.onclick =
       this.handlePreviousTrackButton.bind(this);
 
-    this.nextTrackButton = document.getElementById("nextTrackButton");
+    this.nextTrackButton = document.getElementById("next-track-button");
     this.nextTrackButton.onclick = this.handleNextTrackButton.bind(this);
 
-    this.repeatButton = document.getElementById("repeatButton");
+    this.repeatButton = document.getElementById("repeat-button");
     this.repeatButton.onclick = this.handleRepeatButton.bind(this);
 
-    this.shuffleButton = document.getElementById("shuffleButton");
+    this.shuffleButton = document.getElementById("shuffle-button");
     this.shuffleButton.onclick = this.handleShuffleButton.bind(this);
 
     document
@@ -123,7 +123,7 @@ class WebAudioPlayerController {
       .addEventListener("ended", this.nextTrackButton.onclick);
 
     document
-      .getElementById("playListTable")
+      .getElementsByClassName("playlist-table")[0]
       .addEventListener("click", this.handleClickInTable.bind(this));
   }
 
@@ -259,23 +259,23 @@ class WebAudioPlayerController {
     if (playList.head === null || playList.head.value.duration === null)
       return null;
 
-    const repeatButton = document.getElementById("repeatButton");
+    const repeatButton = document.getElementById("repeat-button");
     const player = document.getElementById("player");
 
     if (this.getRepeatState() === "noRepeat") {
-      repeatButton.setAttribute("src", "icons/repeatTrack.gif");
+      repeatButton.setAttribute("src", "icons/repeat-track.gif");
       this.setRepeatState("repeatTrack");
       player.removeEventListener("ended", this.nextTrackButton.onclick);
       player.addEventListener("ended", this.playButton.onclick);
     } else if (this.getRepeatState() === "repeatTrack") {
       playList.convertToCircularDoublyLinkedList();
-      repeatButton.setAttribute("src", "icons/repeatPlayList.gif");
+      repeatButton.setAttribute("src", "icons/repeat-playlist.gif");
       this.setRepeatState("repeatPlayList");
       player.removeEventListener("ended", this.playButton.onclick);
       player.addEventListener("ended", this.nextTrackButton.onclick);
     } else {
       playList.revertBackToDoublyLinkedList();
-      repeatButton.setAttribute("src", "icons/noRepeat.gif");
+      repeatButton.setAttribute("src", "icons/no-repeat.gif");
       this.setRepeatState("noRepeat");
     }
   }
@@ -284,7 +284,7 @@ class WebAudioPlayerController {
     if (playList.head === null || playList.head.value.duration === null)
       return null;
 
-    const shuffleButton = document.getElementById("shuffleButton");
+    const shuffleButton = document.getElementById("shuffle-button");
     const indexOfCurrentTrack = this.getIndexOfCurrentTrack();
     const currentTrack = playList.getElementAtIndex(indexOfCurrentTrack);
     const currentTrackNumber = currentTrack.value.trackNumber;
@@ -303,7 +303,7 @@ class WebAudioPlayerController {
     } else {
       this.setShuffle(false);
       this.unShuffleTracks();
-      shuffleButton.setAttribute("src", "icons/noShuffle.gif");
+      shuffleButton.setAttribute("src", "icons/no-shuffle.gif");
     }
   }
 
@@ -333,8 +333,8 @@ class WebAudioPlayerController {
     this.setTrack(firstTrack);
     this.setIndexOfCurrentTrack(0);
 
-    if (this.getRepeatState() === "repeatPlayList")
-      playList.convertToCircularDoublyLinkedList();
+    if (this.getRepeatState() !== "repeatPlayList")
+      playList.revertBackToDoublyLinkedList();
   }
 
   handleClickInTable(e) {

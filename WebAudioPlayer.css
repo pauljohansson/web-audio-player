@@ -1,56 +1,90 @@
-body {
-  font-size: medium;
+* {
+  margin: 0;
+  padding: 0;
 }
 
-h1 {
-  font-size: 275%;
+.app-container {
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  text-align: center;
 }
 
-table {
+.open-files-section + .player-controls-section {
+  padding: 10px 0px;
+}
+
+.header {
+  margin: 10px 0;
+}
+
+.header h1 {
+  font-size: 3em;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0 0 10px;
+}
+
+.header p {
+  font-size: 1.5em;
+  margin: 0 0 10px;
+}
+
+.open-files-section {
+  display: flex;
+  justify-content: center;
+}
+
+.player-controls-section {
+  display: flex;
+  justify-content: center;
+}
+
+.media-button {
+  cursor: pointer;
+}
+
+.audio-player-section {
+  display: flex;
+  justify-content: center;
+}
+
+.playlist-table {
   font-family: "Courier New", Courier, monospace;
-  font-size: 200%;
   border-collapse: collapse;
+  font-size: 1.5em;
 }
 
 td,
 th {
-  border: thin solid #ddd;
+  border: thin solid hsl(0, 0%, 85%);
   padding: 8px;
 }
 
 th {
-  background-color: #04aa6d;
+  background-color: hsl(160, 95%, 35%);
   padding-top: 12px;
   padding-bottom: 12px;
   color: white;
   cursor: auto;
 }
 
+td {
+  cursor: pointer;
+  text-align: left;
+}
+
+.right-align-text {
+  text-align: right;
+}
+
 tr:nth-child(odd) {
-  background-color: #eee;
+  background-color: hsl(0, 0%, 95%);
 }
 
 tr.selected {
   background-color: yellow;
 }
 
-.mediaButton {
-  cursor: pointer;
-}
-
-.rightAlignText {
-  text-align: right;
-}
-
-#openFiles,
-#playerControls {
-  padding: 10px 0px 10px 0px;
-}
-
-#playerControls {
-  width: 110%;
-}
-
-#playListContainer {
-  padding: 50px 0px 0px 0px;
+#files {
+  font-size: 2em;
 }
